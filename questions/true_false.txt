@@ -1,0 +1,71 @@
+1. The software life cycle begins with a conceptual study.  
+False. The software life cycle typically begins with requirements gathering and analysis, not a conceptual study. 
+2. The costs of software on a PC are often less than the hardware cost. 
+False. Software costs often dominate computer system costs. The costs of software on a PC are often  greater than the hardware cost
+3. Testing should not be repeatable.
+False. Testing should be repeatable to discover defects.
+4. The cascade model is a sequential model. 
+True
+5. Validation and verification are two terms meaning the same thing
+False. Verification means the software should conform to its specification. On the other hand the validation means the software should do what the user really requires.
+6. The four basic process activities for the development processes, in the waterfall model are organized in sequence, whereas in incremental development they are inter-leaved. 
+True
+7. The prototype is used in the rapid development of software.  
+True
+8. The unit tests are black-box tests. 
+False. Unit tests can be both black-box tests and white-box tests.
+9. Requirement analysis is a step less important than design.
+False. Requirement analysis is a step that is equally important as design in the software development process.
+10. The software engineering methods and tools are the same for all developed software applications. 
+False. While all software projects have to be professionally managed and developed, different techniques are appropriate for different types of system. For example, games should always be developed using a series of prototypes whereas safety critical control systems require a complete and analyzable specification to be developed.
+11 The software engineering fundamentals dictate, where appropriate, reuse software that has already been developed rather than write new software. 
+True
+12. Software engineers are allowed to use their technical skills to misuse other people's computers
+False. Software engineers should not use their technical skills to misuse other people’s computers. They are expected to adhere to ethical standards and legal regulations in their work.
+13. The high-level activities of specification, development, validation and evolution are part of all software processes. 
+True
+14. The only test that is done during software testing is testing of the system as a whole. 
+False Multiple types of tests are performed at different levels, including unit testing, integration testing, system testing, and acceptance testing.
+15. A prototype can be used in the requirements engineering process, in the design process and in the testing process. 
+True
+16. Agile methods require higher skill levels in the development team rather than plan-based approaches. 
+True
+17. User stories are way simpler and more detailed than requirements specification. 
+True
+18. It is often difficult to estimate size at an early stage in a project when only a specification is available. 
+True
+19. For small projects with small teams continuous integration is an issue. 
+False.  For small projects with small teams integration is not an issue. It aims to detect and address integration issues early in the development process
+20. Ideally the burn down chart should merge to zero at the end of the Sprint. 
+True
+21. The V & V process must be applied at each stage in the software process. 
+True
+22. The only objective of the V & V process is the discovery of defects in a system.
+False. It Has two principal objectives: The discovery of defects in a system. And the assessment of whether or not the system is useful and useable in an operational situation.
+23. Project Planning is probably the most time consuming project management activity, because it is a continuous activity from initial concept to system delivery. 
+True
+24. Deliverables are always milestones, but milestones are not necessarily deliverables. 
+True
+25. Adding people to a late project makes it faster.
+False. Adding people to a late project makes it later because of communication overheads.
+26. Productivity is not proportional to the number of people working on a task 
+True
+27. The most commonly used product attribute for cost estimation is code size 
+True
+28. Specification process is defining what the system should do. 
+True
+29. The COCOMO model takes into account different approaches to software development, reuse cases model, etc.
+False. COCOMO is not suitable for non-sequential, rapid development, reengineering ,reuse cases models because Its accuracy is necessarily limited because of its lack of factors which 
+have a significant influence on software costs
+30. In Project Management, Controlling is critical if we are to use our limited resources wisely. 
+True
+31. If you can't measure it, you can't manage it. 
+True
+32. A project manager is proactive and not reactive. 
+True
+33. For most types of systems, the majority of costs are the costs of changing the software after it has gone into use. 
+True
+34. Program and Project are the same.
+False Program and project are not the same. A program is a specific software application or system that performs a set of predefined functions. 
+A project, on the other hand, is a temporary endeavor undertaken to create a unique product, service, or result. A project may involve the development of multiple programs.
+

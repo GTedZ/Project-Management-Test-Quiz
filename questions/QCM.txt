@@ -1,0 +1,286 @@
+1- Software is computer programs and associated documentation such as requirements, design models and user ........
+a) requirements -
+b) access
+c) terms of reference
+
+2- COCOMO stands for
+a) Constructive cost model -
+b) Constructive cost estimation model 
+c) Complete cost estimation model
+
+3- A good software must be acceptable to:
+a) The developers.
+b) The project manager and the administration.
+c) The type of users for which it is designed. -
+
+4- PERT tools are: 
+a) Prototyping tools. 
+b) Planning tools. -
+c) Organizing tools.
+
+5- Stand-alone systems that are marketed and sold to any customer who wishes to buy them are called ....
+a) Generic Products. -
+b) Customized Products.
+
+6- Software engineers shall be ....... of their colleagues.
+a) fair to and supportive. -
+b) fair to and competitors.
+
+7- Which of the following is NOT a software process model? 
+a) The Waterfall Model.
+b) The Incremental development Model.
+c) The Reuse-oriented Software engineering Model.
+d) The Product Prototyping. -
+
+8- Human Resource management is formalized in
+a) OBS -
+b) WBS
+c) PBS
+
+9- A customer may be willing to allow the developer to retain ownership of the code and reuse it in other projects. The prices charged may then be …… then if the software source code is handed over to the customer.
+a) Equal
+b) Less -
+c) Greater.
+
+10- Pair programming is great for: 
+a) Trivial Tasks
+b) complex and critical logic -
+c) All of the above
+
+11-For large systems engineering projects where a system is developed at several sites.we use:
+a) Plan-driven model.
+b) Agile model. -
+
+12-Risk management is one of the most important jobs for a
+a) Developer
+b) Customer
+c) Project Manager -
+
+13-Estimation of size for a project is dependent on
+a) Cost
+b) Time
+c) Schedule
+d) None of the mentioned -
+
+14- Coping with increasing diversity, demands for reduced delivery times and developing trustworthy software are the .... facing software engineering
+a) Key challenges. -
+b) Costs.
+c) Technics and methods.
+
+15- Roughly 60% of costs are development costs and 40% are testing costs. For custom software, the........ costs often exceed the development costs.
+a) Evolution -
+b) Prototype
+c) Engineering
+
+16- Efficiency of a good software includes:
+a) Security.
+b) Processing time. -
+c) Responsiveness. -
+d) Memory utilization. -
+e) Dependability
+
+17-﻿System maintenance is necessary because
+a) Humans never get it right the first time. 
+b) The deployment platform may change over time. 
+c) The user's needs may change over time.
+d) All of the above answers. -
+
+
+18- General issues that affect most software are:
+a) Heterogeneity. -
+b) Business and society. -
+c) Security and Trust. -
+d) Customer mood.
+
+19- Applications that execute on a remote computer and are accessed by users from their own PCs or terminals, are called:
+a) Stand-alone applications.
+b) Interactive transaction-based applications. -
+c) Entertainment systems.
+
+20- The dominant approach for constructing web-based systems is:
+a) Software-reuse. -
+b) Performance.
+c) Trust.
+
+21- In the ......., you identify the overall structure of the system, the principal components their relationships and how they are distributed.
+a) Interface Design.
+b) Architectural design. -
+c) Database Design.
+d) Component Design.
+
+22- In project Management, to determine if we accomplished the goal or met the target, we are .....
+a) Planning
+b) Controlling 
+c) Measuring -
+d) Organizing
+
+23- A better way to reduce the costs of rework in incremental development is:
+a) Use a prototype system. -
+b) Design process so changes can be accommodated at relatively low cost. -
+
+24- The five general phases in the Rational Unified Process model are: 
+a) Analysis, design, implementation, testing and maintenance. 
+b) Review, risk-analysis, prototyping, engineering and planning. 
+c) Inception, Elaboration, Construction, Transition, In-phase iteration. -
+
+25- ....... focus on the code rather than the design.
+a) Agile Methods. -
+b) Plan-driven Methods.
+c) None of the above.
+
+
+26- The objective of software project planning is to:
+a) Convince the customer that the project is feasible 
+b) make use of historical data
+c) enable a manager to make reasonable estimates of cost and schedule -
+d) determine the probable profit margin prior to bidding on a project
+
+27- Team members may be unsuited to the intense involvement that characterizes:
+a) Agile Methods. -
+b) Plan-driven Methods.
+c) Both a) and b).
+
+28- Testing in XP, ....... built are used to run all component tests each time that a new release is
+a) Test-first development
+b) Incremental test development
+c) Automated test harnesses -
+
+29- The Verification means:
+a) Software should match the customer requirements.
+b) Software should match the software specification. -
+c) Software should match the customer requirements and the software specification.
+
+30- Debugging is concerned with ...  and ..... errors in a program.
+a) Locating, repairing. -
+b) Verification, validation.
+c) Locating, validating.
+
+31- ......... is particularly valuable when a language such as C is used because many errors are undetected by the compiler.
+a) Static Analysis. -
+b) Dynamic Analysis.
+c) Debugger.
+
+32- In ....... testing the internal structure of the program is hidden from the testing process
+a) Black-box. -
+b) White-box.
+c) Functional.
+d) Both a) and c).
+
+33- .... chart show task dependencies, durations, and the critical path.
+a) Gantt -
+b) PERT
+c) Bar
+
+
+34- You should preserve all the test cases for a program. During the maintenance phase, a change is made to the program, the test cases that have been saved are used to do .......
+a) Regression testing -
+b) Stress testing
+c) Performance testing
+
+35- "No risk management plan" is a risk taken during the project ...... phase.
+a) Initiation:
+b) Planning -
+c) Execution
+d) Close-out/termination
+
+36- "eliminating a specific threat or risk, by eliminating its causes" represents which risk response strategy?
+a) Risk avoidance -
+b) Risk acceptance 
+c) Risk transference 
+d) Risk mitigation
+
+37- Which one is not a risk management activity?
+a) Risk assessment
+b) Risk generation -
+c) Risk control
+d) None of the mentioned
+
+
+38-System testing involves executing the system with test ........ that are derived from the specification of the real data to be processed by the system.
+a) cases -
+b) modules
+c) requirements
+
+39- Which of the following are parameters involved in computing the total cost of a software development project?
+a) Hardware and software costs -
+b) Effort costs -
+c) Travel and training costs -
+d) None of the mentioned
+
+40- The project environment is complex. Team members are familiar with the system under development. it is:
+a) Organic mode project
+b) Semi-detached mode project
+c) Embedded mode project -
+
+41- ........ testing is performed by a select group of friendly customers.
+a) Alpha
+b) Beta -
+c) Stress
+d) Acceptance
+
+42- The ......... debugging approach uses binary partitioning to reduce the number of locations potential where errors can exist.
+a) Brute Force 
+b) Backtracking
+c) Cause elimination -
+
+43- Developing the project plan is an iterative process that involves:
+a) Project manager
+b) Project team
+c) Customer
+d) Other stakeholders
+e) All of the above -
+
+44- Incremental development is applicable for: 
+a) small or medium-size interactive systems. -
+b) the user interface of large systems. -
+c) long-lifetime systems
+
+45- Project managers strive to meet the triple constraint (project scope, time, and cost goals) and also facilitate the entire process to meet the needs and expectations of project stakeholders
+a) True. -
+b) False.
+
+46- GANTT tool is:
+a) Prototyping tool.
+b) Planning tool. -
+c) Organizing tool. -
+
+47- Embedded control systems are called
+a) Generic Products.
+b) Customized Products. -
+
+48- …… is software to support software development and evolution processes.
+a) CASE -
+b) PERL
+C) GANTT
+
+49- The project is small. Team members are familiar with the system under development. it is:
+a) Organic mode project -
+b) Semi-detached mode project
+c) Embedded mode project
+
+50- A 3 digit naming scheme for versions is quite common. Version 7.5.5 means
+a) It is release 7, developer version 5 and revision version 5 -
+b) It is release 5, developer version 5 and revision version 7
+c) It is release 5, developer version 7 and revision version 5.
+
+51- A Risk Index is defined by:
+a) the probability of a defined threat or opportunity
+b) the magnitude of the consequences of the occurrence (impact) 
+c) A combination of both -
+
+
+52-  ........ contracts may include incentives for meeting project such as schedule target
+a) Fixed-price -
+b) Cost-reimbursable
+c) Time and material
+
+53- The most important ingredient for producing high-quality software efficiently 
+a) people﻿ -
+b) Product complexity
+c) none of the above
+
+54- ........ testing is performed within the development organization.
+a) Alpha -
+b) Beta
+c) Stress
+d) Acceptance

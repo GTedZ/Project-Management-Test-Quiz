@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PM Quiz by GTedZ</title>
+    <meta charset="utf-8">
+</head>
+
+<style>
+    :root {
+        --bg-color: #1b1f25;
+        --dark-bg-color: #111316;
+        --darker-bg-color: #0c0e0f;
+        --selected: #454a52;
+        --right-answer: green;
+        --wrong-answer: red;
+    }
+
+    body {
+        background-color: var(--bg-color);
+    }
+
+    * {
+        border-radius: 10px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        font-size: 20px;
+        color: rgba(245, 245, 245);
+    }
+
+    .disabled {
+        display: none;
+    }
+
+    rule {
+        display: block;
+        font-size: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: var(--dark-bg-color);
+        color: rgb(126, 87, 45);
+        margin-bottom: 50px;
+    }
+
+    counter {
+        text-indent: 10px;
+        font-size: 22px;
+        float: left;
+        color: green;
+    }
+
+    question {
+        display: block;
+        font-size: 26px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        background-color: var(--dark-bg-color);
+        color: rgb(255, 255, 255);
+        margin-bottom: 50px;
+    }
+
+    button {
+        background-color: rgb(65, 65, 137);
+        margin: 50px 50px 20px 50px;
+    }
+
+    answers {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: auto;
+        color: rgb(255, 255, 255);
+        margin-bottom: 50px;
+    }
+
+    answers>div {
+        background-color: var(--dark-bg-color);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 10px;
+        transition: background-color 0.3s;
+        margin-bottom: 50px;
+    }
+
+    answers>div:hover {
+        background-color: var(--selected);
+    }
+
+    answers>div:active {
+        background-color: var(--darker-bg-color);
+    }
+
+    .selected {
+        background-color: var(--selected);
+    }
+
+    .selected.wrong.reveal {
+        background-color: red;
+    }
+
+    .selected.right.reveal {
+        background-color: rgb(0, 187, 0);
+    }
+
+    .right.reveal:not(.selected) {
+        background-color: rgb(28, 111, 28);
+    }
+</style>
+
+<body>
+
+    <div style="margin-bottom: 50px;"></div>
+
+    <div id="QCM">
+
+        <rule>Choose the correct answer(s)</rule>
+
+        <counter id="QCM-counter"></counter>
+
+        <question id="QCM-question"></question>
+
+        <answers id="QCM-answers">
+            <div>Helo</div>
+        </answers>
+
+    </div>
+
+    <div id="true_or_false" class="disabled">
+
+        <rule></rule>
+
+        <counter id="true-or-false-counter"></counter>
+
+        <question id="true-or-false-question"></question>
+
+        <answers>
+            <div>True</div>
+            <div>False</div>
+        </answers>
+
+        <description id="true-or-false-description" class="disabled"></description>
+
+    </div>
+
+
+    <buttons>
+        <button onclick="revealAnswers()">submit</button>
+        <button onclick="cycleNewQuestion()">next</button>
+    </buttons>
+
+</body>
+
+<script>
+    // beginning of item
+    // end of item
+
+    const QCM_TYPE = 'QCM', TRUE_OR_FALSE_TYPE = 'true-false';
+    let type = QCM_TYPE;
+
+    let QCM_questions_counter = 0;
+    let QCM_test_questions = randomize_array(QCM_questions);
+
+    let true_or_false_test_questions = randomize_array(true_or_false_questions);
+
+    cycleNewQuestion();
+
+    document.getElementById('QCM-answers').addEventListener('click', function (event) {
+        if (event.target !== this && !event.target.classList.contains('reveal')) {
+
+            console.log(event.target.classList.toggle('selected'));
+        }
+    });
+
+    // helper functions
+
+    function cycleNewQuestion() {
+        if (type === QCM_TYPE) {
+
+            QCM_questions_counter++;
+
+            document.getElementById('QCM-counter').innerHTML = `${QCM_questions_counter}/${QCM_questions.length}`;
+
+            const question = QCM_test_questions.pop();
+            document.getElementById('QCM-question').innerHTML = question.question.replace(/\./g, '.<br>');
+
+            let answers_string = '';
+            for (const answer of question.answers) {
+                answers_string += `<div class='${question.trueAnswers.includes(answer) ? 'right' : 'wrong'}'>${answer}</div>`;
+            }
+            document.getElementById('QCM-answers').innerHTML = answers_string;
+
+        } else {
+
+            
+
+        }
+    }
+
+    function revealAnswers() {
+
+        for (const child of document.getElementById('QCM-answers').children) {
+            child.classList.add('reveal');
+        }
+
+    }
+
+    function randomize_array(origArr) {
+        arr = [...origArr];
+        const newArr = [];
+
+        while (arr.length !== 0) {
+            const randomIndex = Math.random() * arr.length;
+            const item = (arr.splice(parseFloat(randomIndex), 1))[0];
+            newArr.push(item);
+        }
+        return newArr;
+    }
+
+    function switch_type(newType) {
+        type = newType;
+        if (type === QCM_TYPE) {
+            document.getElementById('QCM').classList.remove('disabled');
+            document.getElementById('true_or_false').classList.add('disabled');
+        } else {
+            document.getElementById('QCM').classList.add('disabled');
+            document.getElementById('true_or_false').classList.remove('disabled');
+        }
+    }
+</script>
+
+</html>

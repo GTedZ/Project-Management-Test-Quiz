@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PM Quiz by GTedZ</title>
+    <meta charset="utf-8">
+</head>
+
+<style>
+    :root {
+        --bg-color: #1b1f25;
+        --dark-bg-color: #111316;
+        --darker-bg-color: #0c0e0f;
+        --selected: #454a52;
+        --right-answer: green;
+        --wrong-answer: red;
+    }
+
+    body {
+        background-color: var(--bg-color);
+    }
+
+    * {
+        border-radius: 10px;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: center;
+        font-size: 20px;
+        color: rgba(245, 245, 245);
+    }
+
+    .disabled {
+        display: none;
+    }
+
+    rule {
+        display: block;
+        font-size: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: var(--dark-bg-color);
+        color: rgb(126, 87, 45);
+        margin-bottom: 50px;
+    }
+
+    counter {
+        text-indent: 10px;
+        font-size: 22px;
+        float: left;
+        color: green;
+    }
+
+    question {
+        display: block;
+        font-size: 26px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        background-color: var(--dark-bg-color);
+        color: rgb(255, 255, 255);
+        margin-bottom: 50px;
+    }
+
+    button {
+        background-color: rgb(65, 65, 137);
+        margin: 50px 50px 20px 50px;
+    }
+
+    answers {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: auto;
+        color: rgb(255, 255, 255);
+        margin-bottom: 50px;
+    }
+
+    answers>div {
+        background-color: var(--dark-bg-color);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 10px;
+        transition: background-color 0.3s;
+        margin-bottom: 50px;
+    }
+
+    answers>div:hover {
+        background-color: var(--selected);
+    }
+
+    answers>div:active {
+        background-color: var(--darker-bg-color);
+    }
+
+    .selected {
+        background-color: var(--selected);
+    }
+
+    .selected.wrong.reveal {
+        background-color: red;
+    }
+
+    .selected.right.reveal {
+        background-color: rgb(0, 187, 0);
+    }
+
+    .right.reveal:not(.selected) {
+        background-color: rgb(28, 111, 28);
+    }
+</style>
+
+<body>
+
+    <div style="margin-bottom: 50px;"></div>
+
+    <div id="QCM">
+
+        <rule>Choose the correct answer(s)</rule>
+
+        <counter id="QCM-counter"></counter>
+
+        <question id="QCM-question"></question>
+
+        <answers id="QCM-answers">
+            <div>Helo</div>
+        </answers>
+
+    </div>
+
+    <div id="true_or_false" class="disabled">
+
+        <rule></rule>
+
+        <counter id="true-or-false-counter"></counter>
+
+        <question id="true-or-false-question"></question>
+
+        <answers>
+            <div>True</div>
+            <div>False</div>
+        </answers>
+
+        <description id="true-or-false-description" class="disabled"></description>
+
+    </div>
+
+
+    <buttons>
+        <button onclick="revealAnswers()">submit</button>
+        <button onclick="cycleNewQuestion()">next</button>
+    </buttons>
+
+</body>
+
+<script>
+    
+const QCM_questions = [
+  {
+    "id": 1,
+    "question": "Software is computer programs and associated documentation such as requirements, design models and user _________",
+    "answers": [
+      "requirements",
+      "access",
+      "terms of reference"
+    ],
+    "trueAnswers": [
+      "requirements"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "COCOMO stands for",
+    "answers": [
+      "Constructive cost model",
+      "Constructive cost estimation model",
+      "Complete cost estimation model"
+    ],
+    "trueAnswers": [
+      "Constructive cost model"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "A good software must be acceptable to:",
+    "answers": [
+      "The developers.",
+      "The project manager and the administration.",
+      "The type of users for which it is designed."
+    ],
+    "trueAnswers": [
+      "The type of users for which it is designed."
+    ]
+  },
+  {
+    "id": 4,
+    "question": "PERT tools are:",
+    "answers": [
+      "Prototyping tools.",
+      "Planning tools.",
+      "Organizing tools."
+    ],
+    "trueAnswers": [
+      "Planning tools."
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Stand-alone systems that are marketed and sold to any customer who wishes to buy them are called _________",
+    "answers": [
+      "Generic Products.",
+      "Customized Products."
+    ],
+    "trueAnswers": [
+      "Generic Products."
+    ]
+  },
+  {
+    "id": 6,
+    "question": "Software engineers shall be _________ of their colleagues.",
+    "answers": [
+      "fair to and supportive.",
+      "fair to and competitors."
+    ],
+    "trueAnswers": [
+      "fair to and supportive."
+    ]
+  },
+  {
+    "id": 7,
+    "question": "Which of the following is NOT a software process model?",
+    "answers": [
+      "The Waterfall Model.",
+      "The Incremental development Model.",
+      "The Reuse-oriented Software engineering Model.",
+      "The Product Prototyping."
+    ],
+    "trueAnswers": [
+      "The Product Prototyping."
+    ]
+  },
+  {
+    "id": 8,
+    "question": "Human Resource management is formalized in",
+    "answers": [
+      "OBS",
+      "WBS",
+      "PBS"
+    ],
+    "trueAnswers": [
+      "OBS"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "A customer may be willing to allow the developer to retain ownership of the code and reuse it in other projects. The prices charged may then be _________ then if the software source code is handed over to the customer.",
+    "answers": [
+      "Equal",
+      "Less",
+      "Greater."
+    ],
+    "trueAnswers": [
+      "Less"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "Pair programming is great for:",
+    "answers": [
+      "Trivial Tasks",
+      "complex and critical logic",
+      "All of the above"
+    ],
+    "trueAnswers": [
+      "complex and critical logic"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "For large systems engineering projects where a system is developed at several sites.we use:",
+    "answers": [
+      "Plan-driven model.",
+      "Agile model."
+    ],
+    "trueAnswers": [
+      "Agile model."
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Risk management is one of the most important jobs for a",
+    "answers": [
+      "Developer",
+      "Customer",
+      "Project Manager"
+    ],
+    "trueAnswers": [
+      "Project Manager"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Estimation of size for a project is dependent on",
+    "answers": [
+      "Cost",
+      "Time",
+      "Schedule",
+      "None of the mentioned"
+    ],
+    "trueAnswers": [
+      "None of the mentioned"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "Coping with increasing diversity, demands for reduced delivery times and developing trustworthy software are the _________ facing software engineering",
+    "answers": [
+      "Key challenges.",
+      "Costs.",
+      "Technics and methods."
+    ],
+    "trueAnswers": [
+      "Key challenges."
+    ]
+  },
+  {
+    "id": 15,
+    "question": "Roughly 60% of costs are development costs and 40% are testing costs. For custom software, the_________ costs often exceed the development costs.",
+    "answers": [
+      "Evolution",
+      "Prototype",
+      "Engineering"
+    ],
+    "trueAnswers": [
+      "Evolution"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "Efficiency of a good software includes:",
+    "answers": [
+      "Security.",
+      "Processing time.",
+      "Responsiveness.",
+      "Memory utilization.",
+      "Dependability"
+    ],
+    "trueAnswers": [
+      "Processing time.",
+      "Responsiveness.",
+      "Memory utilization."
+    ]
+  },
+  {
+    "id": 17,
+    "question": "System maintenance is necessary because",
+    "answers": [
+      "Humans never get it right the first time.",
+      "The deployment platform may change over time.",
+      "The user's needs may change over time.",
+      "All of the above answers."
+    ],
+    "trueAnswers": [
+      "All of the above answers."
+    ]
+  },
+  {
+    "id": 18,
+    "question": "General issues that affect most software are:",
+    "answers": [
+      "Heterogeneity.",
+      "Business and society.",
+      "Security and Trust.",
+      "Customer mood."
+    ],
+    "trueAnswers": [
+      "Heterogeneity.",
+      "Business and society.",
+      "Security and Trust."
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Applications that execute on a remote computer and are accessed by users from their own PCs or terminals, are called:",
+    "answers": [
+      "Stand-alone applications.",
+      "Interactive transaction-based applications.",
+      "Entertainment systems."
+    ],
+    "trueAnswers": [
+      "Interactive transaction-based applications."
+    ]
+  },
+  {
+    "id": 20,
+    "question": "The dominant approach for constructing web-based systems is:",
+    "answers": [
+      "Software-reuse.",
+      "Performance.",
+      "Trust."
+    ],
+    "trueAnswers": [
+      "Software-reuse."
+    ]
+  },
+  {
+    "id": 21,
+    "question": "In the _________, you identify the overall structure of the system, the principal components their relationships and how they are distributed.",
+    "answers": [
+      "Interface Design.",
+      "Architectural design.",
+      "Database Design.",
+      "Component Design."
+    ],
+    "trueAnswers": [
+      "Architectural design."
+    ]
+  },
+  {
+    "id": 22,
+    "question": "In project Management, to determine if we accomplished the goal or met the target, we are _________",
+    "answers": [
+      "Planning",
+      "Controlling",
+      "Measuring",
+      "Organizing"
+    ],
+    "trueAnswers": [
+      "Measuring"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "A better way to reduce the costs of rework in incremental development is:",
+    "answers": [
+      "Use a prototype system.",
+      "Design process so changes can be accommodated at relatively low cost."
+    ],
+    "trueAnswers": [
+      "Use a prototype system.",
+      "Design process so changes can be accommodated at relatively low cost."
+    ]
+  },
+  {
+    "id": 24,
+    "question": "The five general phases in the Rational Unified Process model are:",
+    "answers": [
+      "Analysis, design, implementation, testing and maintenance.",
+      "Review, risk-analysis, prototyping, engineering and planning.",
+      "Inception, Elaboration, Construction, Transition, In-phase iteration."
+    ],
+    "trueAnswers": [
+      "Inception, Elaboration, Construction, Transition, In-phase iteration."
+    ]
+  },
+  {
+    "id": 25,
+    "question": "_________ focus on the code rather than the design.",
+    "answers": [
+      "Agile Methods.",
+      "Plan-driven Methods.",
+      "None of the above."
+    ],
+    "trueAnswers": [
+      "Agile Methods."
+    ]
+  },
+  {
+    "id": 26,
+    "question": "The objective of software project planning is to:",
+    "answers": [
+      "Convince the customer that the project is feasible",
+      "make use of historical data",
+      "enable a manager to make reasonable estimates of cost and schedule",
+      "determine the probable profit margin prior to bidding on a project"
+    ],
+    "trueAnswers": [
+      "enable a manager to make reasonable estimates of cost and schedule"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "Team members may be unsuited to the intense involvement that characterizes:",
+    "answers": [
+      "Agile Methods.",
+      "Plan-driven Methods.",
+      "Both a) and b)."
+    ],
+    "trueAnswers": [
+      "Agile Methods."
+    ]
+  },
+  {
+    "id": 28,
+    "question": "Testing in XP, _________ built are used to run all component tests each time that a new release is",
+    "answers": [
+      "Test-first development",
+      "Incremental test development",
+      "Automated test harnesses"
+    ],
+    "trueAnswers": [
+      "Automated test harnesses"
+    ]
+  },
+  {
+    "id": 29,
+    "question": "The Verification means:",
+    "answers": [
+      "Software should match the customer requirements.",
+      "Software should match the software specification.",
+      "Software should match the customer requirements and the software specification."
+    ],
+    "trueAnswers": [
+      "Software should match the software specification."
+    ]
+  },
+  {
+    "id": 30,
+    "question": "Debugging is concerned with _________  and _________ errors in a program.",
+    "answers": [
+      "Locating, repairing.",
+      "Verification, validation.",
+      "Locating, validating."
+    ],
+    "trueAnswers": [
+      "Locating, repairing."
+    ]
+  },
+  {
+    "id": 31,
+    "question": "_________ is particularly valuable when a language such as C is used because many errors are undetected by the compiler.",
+    "answers": [
+      "Static Analysis.",
+      "Dynamic Analysis.",
+      "Debugger."
+    ],
+    "trueAnswers": [
+      "Static Analysis."
+    ]
+  },
+  {
+    "id": 32,
+    "question": "In _________ testing the internal structure of the program is hidden from the testing process",
+    "answers": [
+      "Black-box.",
+      "White-box.",
+      "Functional.",
+      "Both a) and c)."
+    ],
+    "trueAnswers": [
+      "Black-box."
+    ]
+  },
+  {
+    "id": 33,
+    "question": "_________ chart show task dependencies, durations, and the critical path.",
+    "answers": [
+      "Gantt",
+      "PERT",
+      "Bar"
+    ],
+    "trueAnswers": [
+      "Gantt"
+    ]
+  },
+  {
+    "id": 34,
+    "question": "You should preserve all the test cases for a program. During the maintenance phase, a change is made to the program, the test cases that have been saved are used to do _________",
+    "answers": [
+      "Regression testing",
+      "Stress testing",
+      "Performance testing"
+    ],
+    "trueAnswers": [
+      "Regression testing"
+    ]
+  },
+  {
+    "id": 35,
+    "question": "\"No risk management plan\" is a risk taken during the project _________ phase.",
+    "answers": [
+      "Initiation:",
+      "Planning",
+      "Execution",
+      "Close-out/termination"
+    ],
+    "trueAnswers": [
+      "Planning"
+    ]
+  },
+  {
+    "id": 36,
+    "question": "\"eliminating a specific threat or risk, by eliminating its causes\" represents which risk response strategy?",
+    "answers": [
+      "Risk avoidance",
+      "Risk acceptance",
+      "Risk transference",
+      "Risk mitigation"
+    ],
+    "trueAnswers": [
+      "Risk avoidance"
+    ]
+  },
+  {
+    "id": 37,
+    "question": "Which one is not a risk management activity?",
+    "answers": [
+      "Risk assessment",
+      "Risk generation",
+      "Risk control",
+      "None of the mentioned"
+    ],
+    "trueAnswers": [
+      "Risk generation"
+    ]
+  },
+  {
+    "id": 38,
+    "question": "System testing involves executing the system with test _________ that are derived from the specification of the real data to be processed by the system.",
+    "answers": [
+      "cases",
+      "modules",
+      "requirements"
+    ],
+    "trueAnswers": [
+      "cases"
+    ]
+  },
+  {
+    "id": 39,
+    "question": "Which of the following are parameters involved in computing the total cost of a software development project?",
+    "answers": [
+      "Hardware and software costs",
+      "Effort costs",
+      "Travel and training costs",
+      "None of the mentioned"
+    ],
+    "trueAnswers": [
+      "Hardware and software costs",
+      "Effort costs",
+      "Travel and training costs"
+    ]
+  },
+  {
+    "id": 40,
+    "question": "The project environment is complex. Team members are familiar with the system under development. it is:",
+    "answers": [
+      "Organic mode project",
+      "Semi-detached mode project",
+      "Embedded mode project"
+    ],
+    "trueAnswers": [
+      "Embedded mode project"
+    ]
+  },
+  {
+    "id": 41,
+    "question": "_________ testing is performed by a select group of friendly customers.",
+    "answers": [
+      "Alpha",
+      "Beta",
+      "Stress",
+      "Acceptance"
+    ],
+    "trueAnswers": [
+      "Beta"
+    ]
+  },
+  {
+    "id": 42,
+    "question": "The _________ debugging approach uses binary partitioning to reduce the number of locations potential where errors can exist.",
+    "answers": [
+      "Brute Force",
+      "Backtracking",
+      "Cause elimination"
+    ],
+    "trueAnswers": [
+      "Cause elimination"
+    ]
+  },
+  {
+    "id": 43,
+    "question": "Developing the project plan is an iterative process that involves:",
+    "answers": [
+      "Project manager",
+      "Project team",
+      "Customer",
+      "Other stakeholders",
+      "All of the above"
+    ],
+    "trueAnswers": [
+      "All of the above"
+    ]
+  },
+  {
+    "id": 44,
+    "question": "Incremental development is applicable for:",
+    "answers": [
+      "small or medium-size interactive systems.",
+      "the user interface of large systems.",
+      "long-lifetime systems"
+    ],
+    "trueAnswers": [
+      "small or medium-size interactive systems.",
+      "the user interface of large systems."
+    ]
+  },
+  {
+    "id": 45,
+    "question": "Project managers strive to meet the triple constraint (project scope, time, and cost goals) and also facilitate the entire process to meet the needs and expectations of project stakeholders",
+    "answers": [
+      "True.",
+      "False."
+    ],
+    "trueAnswers": [
+      "True."
+    ]
+  },
+  {
+    "id": 46,
+    "question": "GANTT tool is:",
+    "answers": [
+      "Prototyping tool.",
+      "Planning tool.",
+      "Organizing tool."
+    ],
+    "trueAnswers": [
+      "Planning tool.",
+      "Organizing tool."
+    ]
+  },
+  {
+    "id": 47,
+    "question": "Embedded control systems are called",
+    "answers": [
+      "Generic Products.",
+      "Customized Products."
+    ],
+    "trueAnswers": [
+      "Customized Products."
+    ]
+  },
+  {
+    "id": 48,
+    "question": "_________ is software to support software development and evolution processes.",
+    "answers": [
+      "CASE",
+      "PERL",
+      "C) GANTT"
+    ],
+    "trueAnswers": [
+      "CASE"
+    ]
+  },
+  {
+    "id": 49,
+    "question": "The project is small. Team members are familiar with the system under development. it is:",
+    "answers": [
+      "Organic mode project",
+      "Semi-detached mode project",
+      "Embedded mode project"
+    ],
+    "trueAnswers": [
+      "Organic mode project"
+    ]
+  },
+  {
+    "id": 50,
+    "question": "A 3 digit naming scheme for versions is quite common. Version 7.5.5 means",
+    "answers": [
+      "It is release 7, developer version 5 and revision version 5",
+      "It is release 5, developer version 5 and revision version 7",
+      "It is release 5, developer version 7 and revision version 5."
+    ],
+    "trueAnswers": [
+      "It is release 7, developer version 5 and revision version 5"
+    ]
+  },
+  {
+    "id": 51,
+    "question": "A Risk Index is defined by:",
+    "answers": [
+      "the probability of a defined threat or opportunity",
+      "the magnitude of the consequences of the occurrence (impact)",
+      "A combination of both"
+    ],
+    "trueAnswers": [
+      "A combination of both"
+    ]
+  },
+  {
+    "id": 52,
+    "question": "_________ contracts may include incentives for meeting project such as schedule target",
+    "answers": [
+      "Fixed-price",
+      "Cost-reimbursable",
+      "Time and material"
+    ],
+    "trueAnswers": [
+      "Fixed-price"
+    ]
+  },
+  {
+    "id": 53,
+    "question": "The most important ingredient for producing high-quality software efficiently",
+    "answers": [
+      "people",
+      "Product complexity",
+      "none of the above"
+    ],
+    "trueAnswers": [
+      "people"
+    ]
+  },
+  {
+    "id": 54,
+    "question": "_________ testing is performed within the development organization.",
+    "answers": [
+      "Alpha",
+      "Beta",
+      "Stress",
+      "Acceptance"
+    ],
+    "trueAnswers": [
+      "Alpha"
+    ]
+  }
+];
+const true_or_false_questions = [
+  {
+    "id": 1,
+    "question": "The software life cycle begins with a conceptual study",
+    "answer": false,
+    "descriptions": [
+      ". The software life cycle typically begins with requirements gathering and analysis, not a conceptual study"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "The costs of software on a PC are often less than the hardware cost",
+    "answer": false,
+    "descriptions": [
+      ". Software costs often dominate computer system costs. The costs of software on a PC are often  greater than the hardware cost"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Testing should not be repeatable",
+    "answer": false,
+    "descriptions": [
+      ". Testing should be repeatable to discover defects"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "The cascade model is a sequential model",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 5,
+    "question": "Validation and verification are two terms meaning the same thing",
+    "answer": false,
+    "descriptions": [
+      ". Verification means the software should conform to its specification. On the other hand the validation means the software should do what the user really requires"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "The four basic process activities for the development processes, in the waterfall model are organized in sequence, whereas in incremental development they are inter-leaved",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 7,
+    "question": "The prototype is used in the rapid development of software",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 8,
+    "question": "The unit tests are black-box tests",
+    "answer": false,
+    "descriptions": [
+      ". Unit tests can be both black-box tests and white-box tests"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Requirement analysis is a step less important than design",
+    "answer": false,
+    "descriptions": [
+      ". Requirement analysis is a step that is equally important as design in the software development process"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "The software engineering methods and tools are the same for all developed software applications",
+    "answer": false,
+    "descriptions": [
+      ". While all software projects have to be professionally managed and developed, different techniques are appropriate for different types of system. For example, games should always be developed using a series of prototypes whereas safety critical control systems require a complete and analyzable specification to be developed"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "The software engineering fundamentals dictate, where appropriate, reuse software that has already been developed rather than write new software",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 12,
+    "question": "Software engineers are allowed to use their technical skills to misuse other people's computers",
+    "answer": false,
+    "descriptions": [
+      ". Software engineers should not use their technical skills to misuse other people’s computers. They are expected to adhere to ethical standards and legal regulations in their work"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "The high-level activities of specification, development, validation and evolution are part of all software processes",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 14,
+    "question": "The only test that is done during software testing is testing of the system as a whole",
+    "answer": false,
+    "descriptions": [
+      "Multiple types of tests are performed at different levels, including unit testing, integration testing, system testing, and acceptance testing"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "A prototype can be used in the requirements engineering process, in the design process and in the testing process",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 16,
+    "question": "Agile methods require higher skill levels in the development team rather than plan-based approaches",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 17,
+    "question": "User stories are way simpler and more detailed than requirements specification",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 18,
+    "question": "It is often difficult to estimate size at an early stage in a project when only a specification is available",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 19,
+    "question": "For small projects with small teams continuous integration is an issue",
+    "answer": false,
+    "descriptions": [
+      ".  For small projects with small teams integration is not an issue. It aims to detect and address integration issues early in the development process"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "Ideally the burn down chart should merge to zero at the end of the Sprint",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 21,
+    "question": "The V & V process must be applied at each stage in the software process",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 22,
+    "question": "The only objective of the V & V process is the discovery of defects in a system",
+    "answer": false,
+    "descriptions": [
+      ". It Has two principal objectives: The discovery of defects in a system. And the assessment of whether or not the system is useful and useable in an operational situation"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "Project Planning is probably the most time consuming project management activity, because it is a continuous activity from initial concept to system delivery",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 24,
+    "question": "Deliverables are always milestones, but milestones are not necessarily deliverables",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 25,
+    "question": "Adding people to a late project makes it faster",
+    "answer": false,
+    "descriptions": [
+      ". Adding people to a late project makes it later because of communication overheads"
+    ]
+  },
+  {
+    "id": 26,
+    "question": "Productivity is not proportional to the number of people working on a task",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 27,
+    "question": "The most commonly used product attribute for cost estimation is code size",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 28,
+    "question": "Specification process is defining what the system should do",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 29,
+    "question": "The COCOMO model takes into account different approaches to software development, reuse cases model, etc",
+    "answer": false,
+    "descriptions": [
+      ". COCOMO is not suitable for non-sequential, rapid development, reengineering ,reuse cases models because Its accuracy is necessarily limited because of its lack of factors which",
+      "have a significant influence on software costs"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "In Project Management, Controlling is critical if we are to use our limited resources wisely",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 31,
+    "question": "If you can't measure it, you can't manage it",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 32,
+    "question": "A project manager is proactive and not reactive",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 33,
+    "question": "For most types of systems, the majority of costs are the costs of changing the software after it has gone into use",
+    "answer": true,
+    "descriptions": []
+  },
+  {
+    "id": 34,
+    "question": "Program and Project are the same",
+    "answer": false,
+    "descriptions": [
+      "Program and project are not the same. A program is a specific software application or system that performs a set of predefined functions",
+      "A project, on the other hand, is a temporary endeavor undertaken to create a unique product, service, or result. A project may involve the development of multiple programs"
+    ]
+  }
+];
+
+
+
+    const QCM_TYPE = 'QCM', TRUE_OR_FALSE_TYPE = 'true-false';
+    let type = QCM_TYPE;
+
+    let QCM_questions_counter = 0;
+    let QCM_test_questions = randomize_array(QCM_questions);
+
+    let true_or_false_test_questions = randomize_array(true_or_false_questions);
+
+    cycleNewQuestion();
+
+    document.getElementById('QCM-answers').addEventListener('click', function (event) {
+        if (event.target !== this && !event.target.classList.contains('reveal')) {
+
+            console.log(event.target.classList.toggle('selected'));
+        }
+    });
+
+    // helper functions
+
+    function cycleNewQuestion() {
+        if (type === QCM_TYPE) {
+
+            QCM_questions_counter++;
+
+            document.getElementById('QCM-counter').innerHTML = `${QCM_questions_counter}/${QCM_questions.length}`;
+
+            const question = QCM_test_questions.pop();
+            document.getElementById('QCM-question').innerHTML = question.question.replace(/\./g, '.<br>');
+
+            let answers_string = '';
+            for (const answer of question.answers) {
+                answers_string += `<div class='${question.trueAnswers.includes(answer) ? 'right' : 'wrong'}'>${answer}</div>`;
+            }
+            document.getElementById('QCM-answers').innerHTML = answers_string;
+
+        } else {
+
+            
+
+        }
+    }
+
+    function revealAnswers() {
+
+        for (const child of document.getElementById('QCM-answers').children) {
+            child.classList.add('reveal');
+        }
+
+    }
+
+    function randomize_array(origArr) {
+        arr = [...origArr];
+        const newArr = [];
+
+        while (arr.length !== 0) {
+            const randomIndex = Math.random() * arr.length;
+            const item = (arr.splice(parseFloat(randomIndex), 1))[0];
+            newArr.push(item);
+        }
+        return newArr;
+    }
+
+    function switch_type(newType) {
+        type = newType;
+        if (type === QCM_TYPE) {
+            document.getElementById('QCM').classList.remove('disabled');
+            document.getElementById('true_or_false').classList.add('disabled');
+        } else {
+            document.getElementById('QCM').classList.add('disabled');
+            document.getElementById('true_or_false').classList.remove('disabled');
+        }
+    }
+</script>
+
+</html>
