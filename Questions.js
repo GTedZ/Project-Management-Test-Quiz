@@ -80,7 +80,7 @@ class Questions {
         refactored_rawArr.forEach(full_rawQuestion_arr => {
 
             const [question, ...answers] = full_rawQuestion_arr;
-            const descriptions = answers.map(item => item.replace(/True|False|True.|False./, '').trim()).filter(item => item.trim());
+            const descriptions = answers.map(item => item.replace(/True|False|True\.|False\./g, '').trim()).filter(item => item.trim());
 
             this.true_or_false.push(
                 {
@@ -90,7 +90,6 @@ class Questions {
                     descriptions: descriptions
                 }
             )
-
         })
     }
 

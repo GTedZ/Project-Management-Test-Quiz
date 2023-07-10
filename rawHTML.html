@@ -45,6 +45,7 @@
         padding-bottom: 10px;
         background-color: var(--dark-bg-color);
         color: rgb(126, 87, 45);
+        margin-top: 30px;
         margin-bottom: 50px;
     }
 
@@ -67,7 +68,8 @@
 
     button {
         background-color: rgb(65, 65, 137);
-        margin: 50px 50px 20px 50px;
+        margin-right: 50px;
+        margin-left: 50px;
     }
 
     answers {
@@ -97,6 +99,25 @@
         background-color: var(--darker-bg-color);
     }
 
+    description {
+        display: block;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        background-color: var(--dark-bg-color);
+        color: rgb(255, 255, 255);
+        margin-bottom: 50px;
+    }
+
+    description>div {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-left: 100px;
+        margin-right: 100px;
+        padding: 10px;
+        transition: background-color 0.3s;
+        margin-bottom: 50px;
+    }
+
     .selected {
         background-color: var(--selected);
     }
@@ -118,7 +139,12 @@
 
     <div style="margin-bottom: 50px;"></div>
 
-    <div id="QCM">
+    <div>
+        <button onclick="switch_type('QCM')">QCM</button>
+        <button onclick="switch_type('true-false')">true/false</button>
+    </div>
+
+    <div id="QCM" class="disabled">
 
         <rule>Choose the correct answer(s)</rule>
 
@@ -132,26 +158,26 @@
 
     </div>
 
-    <div id="true_or_false" class="disabled">
+    <div id="true_or_false">
 
-        <rule></rule>
+        <rule>true or false?</rule>
 
         <counter id="true-or-false-counter"></counter>
 
         <question id="true-or-false-question"></question>
 
-        <answers>
-            <div>True</div>
-            <div>False</div>
+        <answers id="true-or-false-answers">
+            <div id="true">True</div>
+            <div id="false">False</div>
         </answers>
 
-        <description id="true-or-false-description" class="disabled"></description>
+        <description id="true-or-false-description" class=""></description>
 
     </div>
 
 
     <buttons>
-        <button onclick="revealAnswers()">submit</button>
+        <button id="submit-button" onclick="revealAnswers()">submit</button>
         <button onclick="cycleNewQuestion()">next</button>
     </buttons>
 
@@ -164,17 +190,30 @@
     const QCM_TYPE = 'QCM', TRUE_OR_FALSE_TYPE = 'true-false';
     let type = QCM_TYPE;
 
-    let QCM_questions_counter = 0;
-    let QCM_test_questions = randomize_array(QCM_questions);
+    let first_true_false_question = true;
 
+    let QCM_questions_counter = 0;
+    let true_or_false_counter = 0;
+
+    let QCM_test_questions = randomize_array(QCM_questions);
     let true_or_false_test_questions = randomize_array(true_or_false_questions);
 
+    const true_div = document.getElementById('true');
+    const false_div = document.getElementById('false');
+
+    true_div.addEventListener('click', revealAnswers);
+    false_div.addEventListener('click', revealAnswers);
     cycleNewQuestion();
 
     document.getElementById('QCM-answers').addEventListener('click', function (event) {
         if (event.target !== this && !event.target.classList.contains('reveal')) {
+            event.target.classList.toggle('selected')
+        }
+    });
 
-            console.log(event.target.classList.toggle('selected'));
+    document.getElementById('true-or-false-answers').addEventListener('click', function (event) {
+        if (event.target !== this && !event.target.classList.contains('reveal')) {
+            event.target.classList.toggle('selected')
         }
     });
 
@@ -198,16 +237,56 @@
 
         } else {
 
-            
+            true_or_false_counter++;
 
+            document.getElementById('true-or-false-counter').innerHTML = `${true_or_false_counter}/${true_or_false_questions.length}`;
+
+            const question = true_or_false_test_questions.pop();
+
+            document.getElementById('true-or-false-question').innerHTML = question.question.replace(/\./g, '.<br>');
+
+            const true_div = document.getElementById('true');
+            const false_div = document.getElementById('false');
+
+            true_div.classList.remove('right');
+            true_div.classList.remove('wrong');
+            true_div.classList.remove('reveal');
+            true_div.classList.remove('selected');
+
+            false_div.classList.remove('right');
+            false_div.classList.remove('wrong');
+            false_div.classList.remove('reveal');
+            false_div.classList.remove('selected');
+
+            if (question.answer === true) {
+                true_div.classList.add('right');
+                false_div.classList.add('wrong');
+            } else {
+                true_div.classList.add('wrong');
+                false_div.classList.add('right');
+            }
+
+
+            document.getElementById('true-or-false-description').classList.add('disabled');
+
+            if (question.descriptions.length !== 0) document.getElementById('true-or-false-description').innerHTML = '';
+
+            let description_string = '';
+            for (const description of question.descriptions) {
+                description_string += `<div>${description.replace(/^\. */, '').replace(/\./g, '.<br>')}<div>`;
+            }
+
+            document.getElementById('true-or-false-description').innerHTML = description_string;
         }
     }
 
     function revealAnswers() {
 
-        for (const child of document.getElementById('QCM-answers').children) {
-            child.classList.add('reveal');
-        }
+        let ID = type === QCM_TYPE ? 'QCM-answers' : 'true-or-false-answers';
+
+        for (const child of document.getElementById(ID).children) child.classList.add('reveal');
+
+        if (type === TRUE_OR_FALSE_TYPE && document.getElementById('true-or-false-description').innerHTML) document.getElementById('true-or-false-description').classList.remove('disabled');
 
     }
 
@@ -228,9 +307,17 @@
         if (type === QCM_TYPE) {
             document.getElementById('QCM').classList.remove('disabled');
             document.getElementById('true_or_false').classList.add('disabled');
+
+            document.getElementById('submit-button').classList.remove('disabled');
         } else {
+            if (first_true_false_question) {
+                first_true_false_question = false;
+                cycleNewQuestion()
+            }
             document.getElementById('QCM').classList.add('disabled');
             document.getElementById('true_or_false').classList.remove('disabled');
+
+            document.getElementById('submit-button').classList.add('disabled');
         }
     }
 </script>

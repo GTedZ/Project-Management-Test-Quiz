@@ -18,6 +18,6 @@ type true_or_false = {
 
     answer: boolean,
 
-    explanation: string | null
+    descriptions: string | null
 
 }
